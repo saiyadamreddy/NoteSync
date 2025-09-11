@@ -1,4 +1,4 @@
-package com.app.notesfeature.ui.theme
+package com.app.notesfeature.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
