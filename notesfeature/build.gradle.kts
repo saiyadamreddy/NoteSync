@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
+    id("com.google.devtools.ksp") // Apply the KSP plugin
 }
 
 android {
@@ -11,7 +12,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-        targetSdk = 36
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -52,6 +52,12 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Room Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler) // KSP for Room annotation processing
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

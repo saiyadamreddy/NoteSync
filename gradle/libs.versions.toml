@@ -8,7 +8,9 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.9.3"
 activityCompose = "1.10.1"
 composeBom = "2024.09.00"
-hilt = "2.46.1"
+hilt = "2.51.1"
+room = "2.6.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -27,6 +29,12 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 hilt-android   = { module = "com.google.dagger:hilt-android", version.ref = "hilt"  }
 hilt-compiler  = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt"  }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version = "1.1.0" }
+
+# Room Database
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx",version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
