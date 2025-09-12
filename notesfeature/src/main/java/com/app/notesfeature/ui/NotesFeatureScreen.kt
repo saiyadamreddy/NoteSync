@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,14 +15,16 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.app.notesfeature.ui.viewmodel.NotesFeatureViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,23 +32,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun NotesFeatureScreen() {
     val viewModel: NotesFeatureViewModel = hiltViewModel()
-    var notes by remember { mutableStateOf(viewModel.getNotes()) }
+    val notes = viewModel.notes
+
+    var showDialog by remember { mutableStateOf(false) }
+    var noteText by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My Notes") },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+                title = { Text("My Notes") }
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                // Add a new note
-                notes = notes + "Note ${notes.size + 1}"
-            }) {
+            FloatingActionButton(onClick = { showDialog = true }) {
                 Text("+")
             }
         },
@@ -63,7 +62,40 @@ fun NotesFeatureScreen() {
             }
         }
     }
+
+    // Dialog to enter new note
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Add Note") },
+            text = {
+                TextField(
+                    value = noteText,
+                    onValueChange = { noteText = it },
+                    placeholder = { Text("Enter your note") }
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    if (noteText.text.isNotBlank()) {
+                        viewModel.addNote(noteText.text)
+                        noteText = TextFieldValue("") // reset
+                    }
+                    showDialog = false
+                }) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
 }
+
+
     @Composable
     fun NoteCard(note: String) {
         Card(
