@@ -1,4 +1,4 @@
-package com.module.notesfeature.ui.viewmodel
+package com.module.notesfeature.ui.noteslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,8 +15,8 @@ import javax.inject.Inject
 class NotesFeatureViewModel @Inject constructor(var noteRepository: NoteRepository) : ViewModel(){
     // Use mutableStateListOf so Compose observes changes
     val notes: StateFlow<List<String>> = noteRepository.getNotes()
-        .map { list -> list.map { it.text } }
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        .map { list -> list.map { it.content } }
+        .stateIn(viewModelScope, SharingStarted.Companion.Lazily, emptyList())
 
     fun addNote(text: String) {
         viewModelScope.launch {

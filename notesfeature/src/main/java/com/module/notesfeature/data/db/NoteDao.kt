@@ -4,14 +4,21 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-
-    @Query("SELECT * FROM notes ORDER BY id ASC")
-    fun getAllNotes(): Flow<List<Note>>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(note: Note)
+    suspend fun insert(note: NoteEntity)
+
+    @Query("SELECT * FROM notes WHERE isSynced = 0")
+    suspend fun getUnSyncedNotes(): List<NoteEntity>
+
+    @Query("SELECT * FROM notes")
+    fun getAllNotes(): Flow<List<NoteEntity>>
+
+    @Update
+    suspend fun update(note: NoteEntity)
 }
+
