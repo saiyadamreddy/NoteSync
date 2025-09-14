@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -44,19 +43,21 @@ import com.module.notesfeature.ui.drive.DriveViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotesFeatureScreen() {
+fun NotesFeatureScreen(onNoteClick: (String) -> Unit) {
     val driveViewModel: DriveViewModel = hiltViewModel()
     val authViewModel: AuthViewModel = hiltViewModel()
     val signInClient = authViewModel.getGoogleSignInClient()
 
     NotesScreenWithSignIn(signInClient = signInClient, onAccount = { token -> token?.let {
         driveViewModel.syncNotes()
-    } })
+    } },
+        onNoteClick = onNoteClick)
 
 }
     @Composable
-    fun NoteCard(note: String) {
+    fun NoteCard(note: String, onClick: () -> Unit) {
         Card(
+            onClick = onClick,
             modifier = Modifier.fillMaxWidth(),
             elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(
@@ -74,7 +75,8 @@ fun NotesFeatureScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotesScreenWithSignIn(signInClient: GoogleSignInClient, onAccount: (String?) -> Unit) {
+fun NotesScreenWithSignIn(signInClient: GoogleSignInClient, onAccount: (String?) -> Unit,
+                          onNoteClick: (String) -> Unit) {
     val viewModel: NotesFeatureViewModel = hiltViewModel()
     val notes by viewModel.notes.collectAsState()
     val driveViewModel: DriveViewModel = hiltViewModel()
@@ -132,7 +134,10 @@ fun NotesScreenWithSignIn(signInClient: GoogleSignInClient, onAccount: (String?)
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(notes) { note ->
-                NoteCard(note = note)
+                NoteCard(note = note,
+                    onClick = {
+                        onNoteClick(note) // Call the navigation callback
+                    })
             }
         }
     }
