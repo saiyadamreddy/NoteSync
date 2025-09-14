@@ -39,14 +39,23 @@ android {
 
 dependencies {
 
+    // Android Core
     implementation(libs.androidx.core.ktx)
+
+    // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Activity
     implementation(libs.androidx.activity.compose)
-    implementation(libs.compose.material.icons.extended)
+
+    // Compose (Foundation & UI)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+
+    // Compose Material
+    implementation(libs.compose.material.icons.extended)
     implementation(libs.androidx.material3)
 
     // Hilt
@@ -77,8 +86,6 @@ dependencies {
     testImplementation(libs.mockk.android) // if you need to mock Android specific classes, not strictly needed here
     // Coroutines testing
     testImplementation(libs.kotlinx.coroutines.test) // Use the latest version
-
-
 
 
 }

@@ -46,10 +46,13 @@ android {
 dependencies {
     implementation(project(":notesfeature"))
 
-    // Required to call Compose in app module
+    // Android Core
     implementation(libs.androidx.core.ktx)
+    // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    // Activity
     implementation(libs.androidx.activity.compose)
+    // Compose (Foundation & UI)
     implementation(platform(libs.androidx.compose.bom))
 
     // Hilt
