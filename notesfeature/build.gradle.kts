@@ -69,11 +69,16 @@ dependencies {
     // Google Auth
     implementation(libs.google.auth)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    // Core testing
+    testImplementation(libs.junit) // Or JUnit 5 equivalent
+    testImplementation(libs.test.junit) // Or your Kotlin version
+    // MockK for mocking
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android) // if you need to mock Android specific classes, not strictly needed here
+    // Coroutines testing
+    testImplementation(libs.kotlinx.coroutines.test) // Use the latest version
+
+
+
+
 }

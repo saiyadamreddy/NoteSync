@@ -11,6 +11,7 @@ class NoteRepository @Inject constructor( private val noteDao: NoteDao){
     fun getNotes(): Flow<List<NoteEntity>> = noteDao.getAllNotes()
 
     suspend fun addNote(text: String) {
+
         noteDao.insert(NoteEntity(content = text))
     }
 }
